@@ -1,0 +1,11 @@
+.DS_Store
+.build/
+build/
+dist/
+
+# Signing material must stay outside the repository.
+*.cer
+*.p12
+*.p8
+*.keychain
+*.keychain-db
