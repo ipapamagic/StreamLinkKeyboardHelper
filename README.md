@@ -22,6 +22,8 @@ To install a persistent copy that survives Xcode/reboots:
 
 The menu bar item is named `F4`.
 
+Localized in English, Traditional Chinese, and Japanese (`Localizable.xcstrings`). Follows the system language automatically.
+
 Notes:
 
 - Signing uses Xcode's automatic signing (your Apple ID / personal team). Because the bundle identifier and signing identity stay stable across rebuilds, the granted Accessibility permission persists across rebuilds too.

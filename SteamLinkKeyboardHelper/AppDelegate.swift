@@ -25,11 +25,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         startMonitoring()
         evaluateSteamLinkForegroundState(force: true)
         Notifier.requestAuthorization()
-        Notifier.show(title: "Steam Link Keyboard Helper is running", body: "Look for F4 in the menu bar. Steam Link foreground will switch to ABC and block F4.")
+        Notifier.show(
+            title: NSLocalizedString("notification.running.title", comment: "Notification title shown right after the app launches"),
+            body: NSLocalizedString("notification.running.body", comment: "Notification body shown right after the app launches")
+        )
     }
 
     private func configureStatusItem() {
-        statusItem.button?.title = "F4"
+        statusItem.button?.title = NSLocalizedString("status.icon.normal", comment: "Menu bar icon text when F4 is not blocked")
         statusItem.button?.toolTip = AppConstants.appName
         rebuildMenu(steamLinkForeground: false)
     }
@@ -49,8 +52,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         Notifier.show(
-            title: "Accessibility permission needed",
-            body: "Allow Steam Link Keyboard Helper in System Settings > Privacy & Security > Accessibility to block F4 directly."
+            title: NSLocalizedString("notification.accessibilityNeeded.title", comment: "Notification title when Accessibility permission is missing"),
+            body: NSLocalizedString("notification.accessibilityNeeded.body", comment: "Notification body when Accessibility permission is missing")
         )
     }
 
@@ -62,10 +65,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             if steamLinkForeground {
                 keyboardManager.disableSpotlightF4()
                 selectABCIfNeeded()
-                Notifier.show(title: "Steam Link foreground", body: "F4 Spotlight disabled. Input source switched to ABC.")
+                Notifier.show(
+                    title: NSLocalizedString("notification.foreground.title", comment: "Notification title when Steam Link becomes foreground"),
+                    body: NSLocalizedString("notification.foreground.body", comment: "Notification body when Steam Link becomes foreground")
+                )
             } else if steamLinkWasForeground {
                 keyboardManager.restoreSpotlightF4()
-                Notifier.show(title: "Steam Link left foreground", body: "F4 Spotlight restored.")
+                Notifier.show(
+                    title: NSLocalizedString("notification.leftForeground.title", comment: "Notification title when Steam Link leaves foreground"),
+                    body: NSLocalizedString("notification.leftForeground.body", comment: "Notification body when Steam Link leaves foreground")
+                )
             }
             steamLinkWasForeground = steamLinkForeground
             rebuildMenu(steamLinkForeground: steamLinkForeground)
@@ -84,64 +93,38 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func rebuildMenu(steamLinkForeground: Bool) {
         let menu = NSMenu()
-        let steamStatus = steamLinkForeground ? "Steam Link: foreground" : "Steam Link: background / not running"
-        let f4Status = keyboardManager.spotlightF4IsDisabled ? "F4 Spotlight: disabled" : "F4 Spotlight: enabled"
+        let steamStatus = steamLinkForeground
+            ? NSLocalizedString("menu.steamLink.foreground", comment: "Menu status line when Steam Link is foreground")
+            : NSLocalizedString("menu.steamLink.background", comment: "Menu status line when Steam Link is not foreground")
+        let f4Status = keyboardManager.spotlightF4IsDisabled
+            ? NSLocalizedString("menu.f4.disabled", comment: "Menu status line when F4 Spotlight is disabled")
+            : NSLocalizedString("menu.f4.enabled", comment: "Menu status line when F4 Spotlight is enabled")
 
-        menu.addItem(disabledItem(steamStatus))
-        menu.addItem(disabledItem(f4Status))
+        menu.addItem(infoItem(steamStatus))
+        menu.addItem(infoItem(f4Status))
         menu.addItem(NSMenuItem.separator())
 
-        let disableItem = NSMenuItem(title: "Disable F4 Spotlight now", action: #selector(disableF4Now), keyEquivalent: "")
-        disableItem.target = self
-        menu.addItem(disableItem)
-
-        let restoreItem = NSMenuItem(title: "Restore F4 Spotlight now", action: #selector(restoreF4Now), keyEquivalent: "")
-        restoreItem.target = self
-        menu.addItem(restoreItem)
-
-        let abcItem = NSMenuItem(title: "Switch to ABC now", action: #selector(switchABCNow), keyEquivalent: "")
-        abcItem.target = self
-        menu.addItem(abcItem)
-
-        let notifyItem = NSMenuItem(title: "Show status notification", action: #selector(showStatusNotification), keyEquivalent: "")
-        notifyItem.target = self
-        menu.addItem(notifyItem)
-
-        menu.addItem(NSMenuItem.separator())
-
-        let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
+        let quitItem = NSMenuItem(
+            title: NSLocalizedString("menu.action.quit", comment: "Menu item to quit the app"),
+            action: #selector(quit),
+            keyEquivalent: "q"
+        )
         quitItem.target = self
         menu.addItem(quitItem)
 
         statusItem.menu = menu
-        statusItem.button?.title = steamLinkForeground ? "F4 off" : "F4"
+        statusItem.button?.title = steamLinkForeground
+            ? NSLocalizedString("status.icon.blocked", comment: "Menu bar icon text when F4 is blocked")
+            : NSLocalizedString("status.icon.normal", comment: "Menu bar icon text when F4 is not blocked")
     }
 
-    private func disabledItem(_ title: String) -> NSMenuItem {
-        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
-        item.isEnabled = false
+    private func infoItem(_ title: String) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: #selector(noop), keyEquivalent: "")
+        item.target = self
         return item
     }
 
-    @objc private func disableF4Now() {
-        keyboardManager.disableSpotlightF4()
-        rebuildMenu(steamLinkForeground: SteamLinkDetector.isForeground())
-    }
-
-    @objc private func restoreF4Now() {
-        keyboardManager.restoreSpotlightF4()
-        rebuildMenu(steamLinkForeground: SteamLinkDetector.isForeground())
-    }
-
-    @objc private func switchABCNow() {
-        keyboardManager.selectABCInputSource()
-    }
-
-    @objc private func showStatusNotification() {
-        let foreground = SteamLinkDetector.isForeground()
-        let body = foreground ? "Steam Link is foreground. F4 should be blocked." : "Steam Link is not foreground. F4 should behave normally."
-        Notifier.show(title: "Steam Link Keyboard Helper", body: body)
-    }
+    @objc private func noop() {}
 
     @objc private func quit() {
         NSApp.terminate(nil)
