@@ -19,7 +19,6 @@ To install a persistent copy that survives Xcode/reboots:
 
 1. In Xcode: `Product > Archive`, then **Distribute App > Copy App** (or **Custom > Copy App**) to export the signed `.app`.
 2. Copy the exported `.app` to `/Applications`.
-3. Use `Install launch at login` from the menu bar item if the helper should start automatically.
 
 The menu bar item is named `F4`.
 

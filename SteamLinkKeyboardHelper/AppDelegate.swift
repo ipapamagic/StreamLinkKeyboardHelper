@@ -5,7 +5,6 @@ import UserNotifications
 
 private enum AppConstants {
     static let appName = "Steam Link Keyboard Helper"
-    static let bundleID = "tw.ipa.MacSteamLinkKeyboardHelper"
     static let pollInterval: TimeInterval = 2
     static let abcInputSourceID = "com.apple.keylayout.ABC"
     static let spotlightHotkeyIDs = ["64", "65"]
@@ -125,13 +124,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(NSMenuItem.separator())
 
-        let launchAgentTitle = LaunchAgentInstaller.isInstalled ? "Remove launch at login" : "Install launch at login"
-        let launchAgentItem = NSMenuItem(title: launchAgentTitle, action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
-        launchAgentItem.target = self
-        menu.addItem(launchAgentItem)
-
-        menu.addItem(NSMenuItem.separator())
-
         let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
@@ -164,15 +156,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let foreground = SteamLinkDetector.isForeground()
         let body = foreground ? "Steam Link is foreground. F4 should be blocked." : "Steam Link is not foreground. F4 should behave normally."
         Notifier.show(title: "Steam Link Keyboard Helper", body: body)
-    }
-
-    @objc private func toggleLaunchAtLogin() {
-        if LaunchAgentInstaller.isInstalled {
-            LaunchAgentInstaller.uninstall()
-        } else {
-            LaunchAgentInstaller.install()
-        }
-        rebuildMenu(steamLinkForeground: SteamLinkDetector.isForeground())
     }
 
     @objc private func quit() {
@@ -384,51 +367,6 @@ private final class KeyboardManager {
         }
 
         _ = Shell.run("/usr/bin/hidutil", arguments: ["property", "--set", json])
-    }
-}
-
-private enum LaunchAgentInstaller {
-    private static var launchAgentsDirectory: URL {
-        FileManager.default.homeDirectoryForCurrentUser
-            .appendingPathComponent("Library/LaunchAgents", isDirectory: true)
-    }
-
-    private static var plistURL: URL {
-        launchAgentsDirectory.appendingPathComponent("\(AppConstants.bundleID).plist")
-    }
-
-    static var isInstalled: Bool {
-        FileManager.default.fileExists(atPath: plistURL.path)
-    }
-
-    static func install() {
-        guard let executable = Bundle.main.executableURL else { return }
-        try? FileManager.default.createDirectory(at: launchAgentsDirectory, withIntermediateDirectories: true)
-
-        let plist = """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-        <plist version="1.0">
-        <dict>
-            <key>Label</key>
-            <string>\(AppConstants.bundleID)</string>
-            <key>ProgramArguments</key>
-            <array>
-                <string>\(executable.path)</string>
-            </array>
-            <key>RunAtLoad</key>
-            <true/>
-        </dict>
-        </plist>
-        """
-
-        try? plist.write(to: plistURL, atomically: true, encoding: .utf8)
-        _ = Shell.run("/bin/launchctl", arguments: ["bootstrap", "gui/\(getuid())", plistURL.path])
-    }
-
-    static func uninstall() {
-        _ = Shell.run("/bin/launchctl", arguments: ["bootout", "gui/\(getuid())", plistURL.path])
-        try? FileManager.default.removeItem(at: plistURL)
     }
 }
 
