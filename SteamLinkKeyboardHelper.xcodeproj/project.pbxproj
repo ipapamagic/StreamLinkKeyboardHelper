@@ -8,12 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		D381060705BEF8C2A8001B5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91A3A57DB30375156AAD7D2 /* AppDelegate.swift */; };
+		29593224704DC9221911617A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460D1D35C9F640A03C75591 /* AppConstants.swift */; };
+		A1BDFDEEB9060D655B76B715 /* Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B7BFA584F1588A8869502 /* Notifier.swift */; };
+		97A698EBED3CBDC03703F8D2 /* SteamLinkDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B01A519AA1579124CB26D1F /* SteamLinkDetector.swift */; };
+		0A9A45522C58F9F0F7DA7C75 /* F4EventInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94B5AD79D2AF0B3F20CFC18 /* F4EventInterceptor.swift */; };
+		D49C96F44093B61174946F01 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AE76F7C95B1C1440E5EF7 /* KeyboardManager.swift */; };
+		2AD02A2550540D03A1691969 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CD68232B033D0A6234578B /* Shell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		84128455942E4B040E90F7E1 /* Steam Link Keyboard Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Steam Link Keyboard Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B91A3A57DB30375156AAD7D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C68F793A4BDCFE2460684E96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5460D1D35C9F640A03C75591 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		905B7BFA584F1588A8869502 /* Notifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifier.swift; sourceTree = "<group>"; };
+		0B01A519AA1579124CB26D1F /* SteamLinkDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteamLinkDetector.swift; sourceTree = "<group>"; };
+		C94B5AD79D2AF0B3F20CFC18 /* F4EventInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = F4EventInterceptor.swift; sourceTree = "<group>"; };
+		B63AE76F7C95B1C1440E5EF7 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
+		14CD68232B033D0A6234578B /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +43,12 @@
 			isa = PBXGroup;
 			children = (
 				B91A3A57DB30375156AAD7D2 /* AppDelegate.swift */,
+				5460D1D35C9F640A03C75591 /* AppConstants.swift */,
+				905B7BFA584F1588A8869502 /* Notifier.swift */,
+				0B01A519AA1579124CB26D1F /* SteamLinkDetector.swift */,
+				C94B5AD79D2AF0B3F20CFC18 /* F4EventInterceptor.swift */,
+				B63AE76F7C95B1C1440E5EF7 /* KeyboardManager.swift */,
+				14CD68232B033D0A6234578B /* Shell.swift */,
 				C68F793A4BDCFE2460684E96 /* Info.plist */,
 			);
 			path = SteamLinkKeyboardHelper;
@@ -121,6 +139,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D381060705BEF8C2A8001B5A /* AppDelegate.swift in Sources */,
+				29593224704DC9221911617A /* AppConstants.swift in Sources */,
+				A1BDFDEEB9060D655B76B715 /* Notifier.swift in Sources */,
+				97A698EBED3CBDC03703F8D2 /* SteamLinkDetector.swift in Sources */,
+				0A9A45522C58F9F0F7DA7C75 /* F4EventInterceptor.swift in Sources */,
+				D49C96F44093B61174946F01 /* KeyboardManager.swift in Sources */,
+				2AD02A2550540D03A1691969 /* Shell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
