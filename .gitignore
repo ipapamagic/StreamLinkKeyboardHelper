@@ -2,6 +2,8 @@
 .build/
 build/
 dist/
+xcuserdata/
+*.xcuserstate
 
 # Signing material must stay outside the repository.
 *.cer

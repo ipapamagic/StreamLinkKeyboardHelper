@@ -20,6 +20,13 @@ private enum AppConstants {
 @main
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    static func main() {
+        let app = NSApplication.shared
+        let delegate = AppDelegate()
+        app.delegate = delegate
+        app.run()
+    }
+
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let keyboardManager = KeyboardManager()
     private let eventInterceptor = F4EventInterceptor()
@@ -29,11 +36,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
-        Notifier.requestAuthorization()
         configureStatusItem()
         startF4EventInterceptor()
         startMonitoring()
         evaluateSteamLinkForegroundState(force: true)
+        Notifier.requestAuthorization()
         Notifier.show(title: "Steam Link Keyboard Helper is running", body: "Look for F4 in the menu bar. Steam Link foreground will switch to ABC and block F4.")
     }
 
