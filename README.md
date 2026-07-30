@@ -27,24 +27,11 @@ SteamLinkKeyboardHelper/
     Info.plist
 ```
 
-## Signing (required before Accessibility permission will stick)
-
-Add your Apple ID to Xcode first: **Xcode > Settings > Accounts > +**. Then in the project's **Signing & Capabilities** tab, make sure a **Team** is selected (a free Personal Team is enough — no paid Apple Developer Program needed).
-
-This matters because F4 interception needs the **Accessibility** permission (`AXIsProcessTrustedWithOptions`), and macOS ties that grant to the app's code signature. Without a Team, Xcode falls back to ad-hoc signing (`Signature=adhoc`, no Team ID), and the signature hash changes on every rebuild — so macOS treats each build as a brand-new, never-approved app and asks for permission again every single time. With a Team selected, the signature stays tied to the same Team ID + Bundle ID across rebuilds, so the permission grant persists.
-
 ## Build & run
 
-**Quick test (Debug run):** Open `SteamLinkKeyboardHelper.xcodeproj` in Xcode and press **Run** (`Cmd+R`). Fine for iterating, but the built `.app` lives in Xcode's DerivedData folder, not somewhere convenient for daily use.
+Open `SteamLinkKeyboardHelper.xcodeproj` in Xcode and press **Run** (`Cmd+R`), or use `Product > Archive` to export a standalone `.app` for installing under `/Applications`.
 
-**Real installable copy (recommended for daily use):**
-
-1. In Xcode: `Product > Archive`.
-2. In the Organizer window that opens, select the archive and click **Distribute App**.
-3. Choose **Custom > Copy App** (not App Store Connect) and pick an export folder.
-4. Copy the exported `Steam Link Keyboard Helper.app` into `/Applications`, then launch it from there.
-
-The first launch will trigger the macOS **Accessibility** permission prompt (needed to intercept the physical F4 key). Approve it in `System Settings > Privacy & Security > Accessibility`, then relaunch the app — the permission check only runs once at startup, so a fresh launch is required after granting it. As long as the Team stays the same, this only needs to happen once, even across rebuilds.
+The first launch will trigger the macOS **Accessibility** permission prompt (needed to intercept the physical F4 key). Approve it in `System Settings > Privacy & Security > Accessibility`, then relaunch the app — the permission check only runs once at startup, so a fresh launch is required after granting it.
 
 The menu bar item is named `F4`. Clicking it shows the current Steam Link / F4 Spotlight status and a Quit item — no manual toggle buttons, since disabling/restoring F4 and switching input source already happen automatically based on Steam Link's foreground state.
 
