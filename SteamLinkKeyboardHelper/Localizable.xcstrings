@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "menu.action.quit" : {
+      "comment" : "Menu item to quit the app",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -24,6 +25,7 @@
       }
     },
     "menu.f4.disabled" : {
+      "comment" : "Menu status line when F4 Spotlight is disabled",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -46,6 +48,7 @@
       }
     },
     "menu.f4.enabled" : {
+      "comment" : "Menu status line when F4 Spotlight is enabled",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -68,6 +71,7 @@
       }
     },
     "menu.steamLink.background" : {
+      "comment" : "Menu status line when Steam Link is not foreground",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -90,6 +94,7 @@
       }
     },
     "menu.steamLink.foreground" : {
+      "comment" : "Menu status line when Steam Link is foreground",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -112,6 +117,7 @@
       }
     },
     "notification.accessibilityNeeded.body" : {
+      "comment" : "Notification body when Accessibility permission is missing",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -134,6 +140,7 @@
       }
     },
     "notification.accessibilityNeeded.title" : {
+      "comment" : "Notification title when Accessibility permission is missing",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -156,6 +163,7 @@
       }
     },
     "notification.foreground.body" : {
+      "comment" : "Notification body when Steam Link becomes foreground",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -178,6 +186,7 @@
       }
     },
     "notification.foreground.title" : {
+      "comment" : "Notification title when Steam Link becomes foreground",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -200,6 +209,7 @@
       }
     },
     "notification.leftForeground.body" : {
+      "comment" : "Notification body when Steam Link leaves foreground",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -222,6 +232,7 @@
       }
     },
     "notification.leftForeground.title" : {
+      "comment" : "Notification title when Steam Link leaves foreground",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -244,6 +255,7 @@
       }
     },
     "notification.running.body" : {
+      "comment" : "Notification body shown right after the app launches",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -266,6 +278,7 @@
       }
     },
     "notification.running.title" : {
+      "comment" : "Notification title shown right after the app launches",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -288,6 +301,7 @@
       }
     },
     "status.icon.blocked" : {
+      "comment" : "Menu bar icon text when F4 is blocked",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -310,6 +324,7 @@
       }
     },
     "status.icon.normal" : {
+      "comment" : "Menu bar icon text when F4 is not blocked",
       "localizations" : {
         "en" : {
           "stringUnit" : {
