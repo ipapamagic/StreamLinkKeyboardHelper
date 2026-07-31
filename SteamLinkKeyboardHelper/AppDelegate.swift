@@ -20,6 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
+        NSApp.applicationIconImage = NSImage(named: "AppIcon")
         configureStatusItem()
         startF4EventInterceptor()
         startMonitoring()
