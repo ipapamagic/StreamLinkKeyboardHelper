@@ -26,5 +26,6 @@ The menu bar item is named `F4`. Use `Install launch at login` from the menu if 
 Notes:
 
 - The build script creates an ad-hoc signed local `.app` under `build/`.
+- Only one instance runs per user: on launch it takes an exclusive `flock` on `~/Library/Caches/tw.ipa.MacSteamLinkKeyboardHelper.lock`; if that fails, it exits immediately with no UI. The lock is held for the process lifetime and released by the kernel on exit.
 - Developer ID signing, notarization, and stapling are intentionally kept out of this repository because they use local Apple credentials.
 - Telegram-downloaded app bundles may be blocked by macOS with `File created by an AppSandbox, exec/open not allowed`; install from a clean local build or a trusted non-sandboxed distribution path.

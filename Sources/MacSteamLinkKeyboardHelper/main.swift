@@ -27,6 +27,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var steamLinkWasForeground = false
     private var lastABCSelect = Date.distantPast
 
+    static func main() {
+        guard SingleInstanceLock.shared.acquire() else {
+            exit(0)
+        }
+
+        let app = NSApplication.shared
+        let delegate = AppDelegate()
+        app.delegate = delegate
+        app.run()
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         Notifier.requestAuthorization()
@@ -170,6 +181,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func quit() {
         NSApp.terminate(nil)
+    }
+}
+
+/// Ensures only one instance runs per user via an exclusive `flock` on a
+/// cache-directory lock file. The file descriptor is kept open (and the lock
+/// held) for the lifetime of the process; the kernel releases it automatically
+/// on exit, so no explicit release is needed.
+@MainActor
+private final class SingleInstanceLock {
+    static let shared = SingleInstanceLock()
+
+    private var fileDescriptor: Int32 = -1
+
+    func acquire() -> Bool {
+        let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        try? FileManager.default.createDirectory(at: cachesDirectory, withIntermediateDirectories: true)
+
+        let lockURL = cachesDirectory.appendingPathComponent("\(AppConstants.bundleID).lock")
+        let fd = open(lockURL.path, O_CREAT | O_RDWR, 0o644)
+        guard fd != -1 else { return false }
+
+        guard flock(fd, LOCK_EX | LOCK_NB) == 0 else {
+            close(fd)
+            return false
+        }
+
+        fileDescriptor = fd
+        return true
     }
 }
 
